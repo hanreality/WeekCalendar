@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    Toolbar mToolbar;
-    TextView mTvTitle;//标题
     WeekCalendar weekCalendar;//自定义日历控件
 
     @Override
@@ -21,27 +19,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         weekCalendar = (WeekCalendar) findViewById(R.id.week_calendar);
-        List<String> list = new ArrayList<>();
-        list.add("2016-09-13");
-        list.add("2016-10-13");
-        list.add("2016-10-11");
-        list.add("2016-10-10");
-        list.add("2016-10-16");
-        weekCalendar.setSelectDates(list);
-        //设置日历点击事件
-        weekCalendar.setOnDateClickListener(new WeekCalendar.OnDateClickListener() {
-            @Override
-            public void onDateClick(String time) {
-                Toast.makeText(MainActivity.this, time, Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        weekCalendar.setOnCurrentMonthDateListener(new WeekCalendar.OnCurrentMonthDateListener() {
-            @Override
-            public void onCallbackMonthDate(String year, String month) {
-                Toast.makeText(MainActivity.this, year + "-" + month, Toast.LENGTH_SHORT).show();
-            }
-        });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        weekCalendar.refreshTime();
     }
 }

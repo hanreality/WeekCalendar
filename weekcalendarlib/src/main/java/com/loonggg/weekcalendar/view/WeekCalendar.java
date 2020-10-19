@@ -59,6 +59,7 @@ public class WeekCalendar extends LinearLayout {
     private Drawable daysSelectedBackground, nextArrowBg, preArrowBg, cornerMarkBg;
     private List<String> selectDateList = null;
     private OnCurrentMonthDateListener onCurrentMonthDateListener;
+    private CalendarAdapter mAdapter;
 
     public WeekCalendar(Context context) {
         super(context);
@@ -165,7 +166,8 @@ public class WeekCalendar extends LinearLayout {
             }
         });
         mGridView = addDayView();
-        mGridView.setAdapter(new CalendarAdapter(context, weeks.get(weekPosition)));
+        mAdapter = new CalendarAdapter(context, weeks.get(weekPosition));
+        mGridView.setAdapter(mAdapter);
         mRvDay.addView(mGridView, 0);
     }
 
@@ -485,6 +487,13 @@ public class WeekCalendar extends LinearLayout {
             return false;
         }
         return true;
+    }
+
+    public void refreshTime() {
+        initDatas();
+        if (mAdapter != null) {
+            mAdapter.notifyDataChanged();
+        }
     }
 
 }
