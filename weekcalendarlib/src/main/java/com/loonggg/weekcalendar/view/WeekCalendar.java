@@ -106,7 +106,7 @@ public class WeekCalendar extends LinearLayout {
         daysTextSize = typedArray.getDimension(R.styleable.WeekCalendar_daysTextSize, 16f);
         weekTextSize = typedArray.getDimension(R.styleable.WeekCalendar_weekTextSize, 16f);
         isShowMonth = typedArray.getBoolean(R.styleable.WeekCalendar_isShowMonth, true);
-        initDatas();
+        initData();
         initView();
         typedArray.recycle();
     }
@@ -114,7 +114,7 @@ public class WeekCalendar extends LinearLayout {
     /**
      * 初始化数据
      */
-    private void initDatas() {
+    private void initData() {
         calendarDatas = new ArrayList<>();
         getToday();//获取当天的数据
         theDayOfSelected = today;
@@ -132,7 +132,7 @@ public class WeekCalendar extends LinearLayout {
         if (onCurrentMonthDateListener != null) {
             onCurrentMonthDateListener.onCallbackMonthDate(String.valueOf(data.year), String.valueOf(data.month));
         }
-        mTvYearMouth.setText(String.format("%s年%s月", String.valueOf(data.year), String.valueOf(data.month)));
+        mTvYearMouth.setText(String.format("%s年%s月", data.year, data.month));
     }
 
     /**
@@ -195,7 +195,7 @@ public class WeekCalendar extends LinearLayout {
     /**
      * 获取今天的参数
      */
-    private void getToday() {
+    private CalendarData getToday() {
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-M-d");
         String currentDate = sdf.format(date);
@@ -203,7 +203,7 @@ public class WeekCalendar extends LinearLayout {
         int month = Integer.parseInt(currentDate.split("-")[1]);
         int day = Integer.parseInt(currentDate.split("-")[2]);
         today = new CalendarData(year, month, day);
-
+        return today;
     }
 
 
@@ -324,7 +324,7 @@ public class WeekCalendar extends LinearLayout {
             weekView.setTextSize(weekTextSize);
             weekView.setBackgroundColor(weekBackgroundColor);
             if (isCornerMark) {
-                corner_mark_iv.setBackgroundDrawable(cornerMarkBg);
+                corner_mark_iv.setBackground(cornerMarkBg);
             } else {
                 corner_mark_iv.setVisibility(View.GONE);
             }
@@ -332,23 +332,26 @@ public class WeekCalendar extends LinearLayout {
                 if (!calendar.isSameDay(today)) {
                     dayView.setText(String.valueOf(calendar.day));
                 } else {
-                    dayView.setText(String.valueOf("今"));
+                    dayView.setText("今");
                 }
             } else {
                 dayView.setText(String.valueOf(calendar.day));
             }
             if (calendar.isSameDay(theDayOfSelected)) {//被选中的日期是白的
                 dayView.setTextColor(daysSelectedTextColor);
-                dayView.setBackgroundDrawable(daysSelectedBackground);
+                dayView.setBackground(daysSelectedBackground);
             } else if (calendar.isLastMonthDay || calendar.isNextMonthDay) {//上一个月、下一个月的日期是灰色的
                 dayView.setTextColor(Color.LTGRAY);
-                dayView.setBackgroundDrawable(null);
+                dayView.setBackground(null);
+            } else if (isFeature(calendar)) {
+                dayView.setTextColor(Color.LTGRAY);
+                dayView.setBackground(null);
             } else if (calendar.isSameDay(today)) {//当天的日期是橘黄色的
                 dayView.setTextColor(todayTextColor);
                 dayView.setText("今");
-                dayView.setBackgroundDrawable(null);
+                dayView.setBackground(null);
             } else {
-                dayView.setBackgroundDrawable(null);
+                dayView.setBackground(null);
                 dayView.setTextColor(weekTextColor);
             }
 
@@ -377,7 +380,7 @@ public class WeekCalendar extends LinearLayout {
                     theDayForShow = datas.get(position);
                     notifyDataSetChanged();
                     if (listener != null) {
-                        listener.onDateClick(getTheDayOfSelected());
+                        listener.onDateClick(getTheDayOfSelected(), theDayOfSelected, isFeature(theDayOfSelected));
                     }
                 }
             });
@@ -390,7 +393,7 @@ public class WeekCalendar extends LinearLayout {
      * 点击选中日期的回调接口
      */
     public interface OnDateClickListener {
-        void onDateClick(String time);
+        void onDateClick(String time, CalendarData selectCalendarData, boolean isFeature);
     }
 
     /**
@@ -429,6 +432,25 @@ public class WeekCalendar extends LinearLayout {
             return String.format("%s-%s-%s", sYear, (2 > sMonth.length()) ? "0" + sMonth : "" + sMonth, (2 > sDay.length()) ? "0" + sDay : "" + sDay);
         }
         return "";
+    }
+
+    private Boolean isFeature(CalendarData calendar) {
+        if (calendar != null) {
+            if (today == null) {
+                today = getToday();
+            }
+            if (calendar.year > today.year) {
+                return true;
+            }
+            if (calendar.month > today.month) {
+                return true;
+            }
+            if (calendar.day > today.day) {
+                return true;
+            }
+
+        }
+        return false;
     }
 
     /**
@@ -490,7 +512,7 @@ public class WeekCalendar extends LinearLayout {
     }
 
     public void refreshTime() {
-        initDatas();
+        initData();
         if (mAdapter != null) {
             mAdapter.notifyDataChanged();
         }

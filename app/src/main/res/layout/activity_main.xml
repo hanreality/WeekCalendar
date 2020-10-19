@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:background="#ffffff"
         android:paddingBottom="10dp"
-        app:cornerMarkBg="@mipmap/order_book_icon"
         app:daysSelectedBackground="@drawable/green_oval_bg"
         app:isCornerMark="true"
         app:weekTextColor="#099088"
