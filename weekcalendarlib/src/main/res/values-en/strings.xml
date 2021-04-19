@@ -8,6 +8,6 @@
     <string name="Friday">Fri</string>
     <string name="Saturday">Sat</string>
     <string name="Sunday">Sun</string>
-    <string name="text_day_month">%d year %d month</string>
+    <string name="text_day_month">%d-%d</string>
     <string name="text_now">now</string>
 </resources>
