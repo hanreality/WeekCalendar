@@ -132,7 +132,7 @@ public class WeekCalendar extends LinearLayout {
         if (onCurrentMonthDateListener != null) {
             onCurrentMonthDateListener.onCallbackMonthDate(String.valueOf(data.year), String.valueOf(data.month));
         }
-        mTvYearMouth.setText(String.format("%s年%s月", data.year, data.month));
+        mTvYearMouth.setText(getContext().getString(R.string.text_day_month, data.year, data.month));
     }
 
     /**
@@ -332,7 +332,7 @@ public class WeekCalendar extends LinearLayout {
                 if (!calendar.isSameDay(today)) {
                     dayView.setText(String.valueOf(calendar.day));
                 } else {
-                    dayView.setText("今");
+                    dayView.setText(R.string.text_now);
                 }
             } else {
                 dayView.setText(String.valueOf(calendar.day));
@@ -348,7 +348,7 @@ public class WeekCalendar extends LinearLayout {
                 dayView.setBackground(null);
             } else if (calendar.isSameDay(today)) {//当天的日期是橘黄色的
                 dayView.setTextColor(todayTextColor);
-                dayView.setText("今");
+                dayView.setText(R.string.text_now);
                 dayView.setBackground(null);
             } else {
                 dayView.setBackground(null);

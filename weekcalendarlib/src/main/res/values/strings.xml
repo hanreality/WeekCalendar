@@ -8,4 +8,6 @@
     <string name="Friday">五</string>
     <string name="Saturday">六</string>
     <string name="Sunday">日</string>
+    <string name="text_day_month">%d 年 %d 月</string>
+    <string name="text_now">今</string>
 </resources>

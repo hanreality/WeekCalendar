@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">WeekCalendar</string>
+    <string name="today">today</string>
+    <string name="Monday">Mon</string>
+    <string name="Tuesday">Tues</string>
+    <string name="Wednesday">Wed</string>
+    <string name="Thursday">Thur</string>
+    <string name="Friday">Fri</string>
+    <string name="Saturday">Sat</string>
+    <string name="Sunday">Sun</string>
+    <string name="text_day_month">%d year %d month</string>
+    <string name="text_now">now</string>
+</resources>
